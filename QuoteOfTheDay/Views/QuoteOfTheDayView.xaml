@@ -6,7 +6,9 @@
              xmlns:local="clr-namespace:QuoteOfTheDay.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="Blue">
-            
+    <Grid>
+        <TextBlock VerticalAlignment="Center" TextAlignment="Center"
+                 Text="{Binding QuoteText}" FontSize="{Binding Settings.QuoteFontSize}" FontFamily="{Binding Settings.QuoteFont}" FontStyle="{Binding Settings.QuoteFontStyle}"
+                 Background="Transparent" TextWrapping="Wrap"></TextBlock>
     </Grid>
 </UserControl>

@@ -4,9 +4,91 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QuoteOfTheDay.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="Red">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="65"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" TextAlignment="Center" FontSize="30">Settings</TextBlock>
+
+        <Grid Grid.Row="1" Margin="30 0" HorizontalAlignment="Center" MinWidth="400">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.25*"></RowDefinition>
+                <RowDefinition Height="0.25*"></RowDefinition>
+                <RowDefinition Height="0.25*"></RowDefinition>
+                <RowDefinition Height="0.25*" MinHeight="100"></RowDefinition>
+                <RowDefinition Height="0.25*" MinHeight="100"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Column="0" Grid.Row="0" MaxHeight="30"
+                       TextAlignment="Center" VerticalAlignment="Center"
+                       FontSize="14">Quote Font:</TextBlock>
+            <ComboBox Grid.Column="1" Grid.Row="0" MaxHeight="30"
+                     VerticalAlignment="Center" HorizontalContentAlignment="Center" MaxWidth="150" Margin="20 0"
+                     FontSize="14" ItemsSource="{Binding Fonts}" SelectedItem="{Binding QuoteFont}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontFamily="{Binding}"></TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+                <ComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel></VirtualizingStackPanel>
+                    </ItemsPanelTemplate>
+                </ComboBox.ItemsPanel>
+            </ComboBox>
+
+            <TextBlock Grid.Column="0" Grid.Row="1" MaxHeight="30"
+                       TextAlignment="Center" VerticalAlignment="Center"
+                       FontSize="14">Quote Font Style:</TextBlock>
+            <ComboBox Grid.Column="1" Grid.Row="1" MaxHeight="30"
+                      VerticalAlignment="Center" MaxWidth="150" Margin="20 0"
+                      HorizontalContentAlignment="Center"
+                      FontSize="14" ItemsSource="{Binding AvailableFontStyles}" SelectedItem="{Binding QuoteFontStyle}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}"></TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+                <ComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel></VirtualizingStackPanel>
+                    </ItemsPanelTemplate>
+                </ComboBox.ItemsPanel>
+            </ComboBox>
+
+            <TextBlock Grid.Column="0" Grid.Row="2" MaxHeight="30"
+                       TextAlignment="Center" VerticalAlignment="Center"
+                       FontSize="14">Quote Font Size:</TextBlock>
+            <TextBox Grid.Column="1" Grid.Row="2" MaxHeight="30"
+                     TextAlignment="Center" VerticalAlignment="Center"
+                     MaxWidth="150" Margin="20 0"
+                     FontSize="14"
+                     Text="{Binding QuoteFontSize, Mode=TwoWay}"></TextBox>
+
+            <TextBlock Grid.Column="0" Grid.Row="3"
+                       TextAlignment="Center" VerticalAlignment="Center"
+                       FontSize="14">Background Color:</TextBlock>
+            <materialDesign:ColorPicker Grid.Column="1" Grid.Row="3" MaxHeight="100" MinHeight="100"
+                                        HorizontalContentAlignment="Center" VerticalAlignment="Center"
+                                        MaxWidth="150" Margin="20 0" Color="{Binding BackgroundColorPicker}"></materialDesign:ColorPicker>
+
+            <TextBlock Grid.Column="0" Grid.Row="4"
+                       TextAlignment="Center" VerticalAlignment="Center"
+                       FontSize="14">Foreground Color:</TextBlock>
+            <materialDesign:ColorPicker Grid.Column="1" Grid.Row="4" MaxHeight="100" MinHeight="100"
+                                        HorizontalContentAlignment="Center" VerticalAlignment="Center"
+                                        MaxWidth="150" Margin="20 0" Color="{Binding ForegroundColorPicker}"></materialDesign:ColorPicker>
             
+
+        </Grid>
     </Grid>
 </UserControl>

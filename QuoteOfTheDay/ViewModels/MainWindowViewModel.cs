@@ -1,4 +1,8 @@
-﻿namespace QuoteOfTheDay.ViewModels
+﻿using System.ComponentModel;
+using System.Windows;
+using QuoteOfTheDay.Services;
+
+namespace QuoteOfTheDay.ViewModels
 {
     using System;
     using System.Windows.Input;
@@ -20,14 +24,21 @@
         private object _currentVm;
         private string _openOrCloseSettingsIconSource;
 
-        internal MainWindowViewModel()
+        public MainWindowViewModel()
         {
             this.SettingsVm = new SettingsViewModel();
             this.QuoteOfTheDayVm = new QuoteOfTheDayViewModel();
             this.OpenOrCloseSettingsCommand = new RelayCommand(this.OpenOrCloseSettings);
             this.OpenOrCloseSettingsIconSource = "/Icons/settingsIcon.png";
             this.CurrentVm = this.QuoteOfTheDayVm;
+            if (Application.Current.MainWindow != null)
+            {
+                Application.Current.MainWindow.Closed += this.MainWindow_Closed;
+            }
+
         }
+
+        public Settings Settings { get; private set; } = Settings.Instance;
 
         /// <summary>
         /// Gets the current view to display.
@@ -83,16 +94,22 @@
             }
         }
 
+        private void MainWindow_Closed(object sender, EventArgs e)
+        {
+            Settings.Instance.SaveSettings();
+        }
+
         private void OpenSettings()
         {
-            this.CurrentVm = this.SettingsVm;
             this.OpenOrCloseSettingsIconSource = "/Icons/closeIcon.png";
+            this.CurrentVm = this.SettingsVm;
         }
 
         private void CloseSettings()
         {
-            this.CurrentVm = this.QuoteOfTheDayVm;
             this.OpenOrCloseSettingsIconSource = "/Icons/settingsIcon.png";
+            this.CurrentVm = this.QuoteOfTheDayVm;
         }
+
     }
 }
