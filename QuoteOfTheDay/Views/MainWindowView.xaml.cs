@@ -3,7 +3,7 @@
 namespace QuoteOfTheDay.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindowView : Window
     {

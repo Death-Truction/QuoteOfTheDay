@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
+﻿using System.Reflection;
 using System.Windows;
 
 namespace QuoteOfTheDay.UtilityFunctions
@@ -10,8 +7,9 @@ namespace QuoteOfTheDay.UtilityFunctions
     {
         internal static FontStyle GetFontstyleFromString(string fontStyle)
         {
-            var propertyInfo = typeof(FontStyles).GetProperty(fontStyle, BindingFlags.Static | BindingFlags.Public | BindingFlags.IgnoreCase);
-            return (FontStyle)propertyInfo.GetValue(null, null);
+            PropertyInfo? propertyInfo = typeof(FontStyles).GetProperty(fontStyle,
+                BindingFlags.Static | BindingFlags.Public | BindingFlags.IgnoreCase);
+            return (FontStyle) propertyInfo.GetValue(null, null);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace QuoteOfTheDay.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Quotes.txt")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string LocalQuotesFilePath {
             get {
                 return ((string)(this["LocalQuotesFilePath"]));
@@ -73,7 +73,7 @@ namespace QuoteOfTheDay.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("#00000000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("#000000")]
         public string BackgroundColor {
             get {
                 return ((string)(this["BackgroundColor"]));
@@ -85,7 +85,7 @@ namespace QuoteOfTheDay.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFFFF")]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFF")]
         public string ForegroundColor {
             get {
                 return ((string)(this["ForegroundColor"]));

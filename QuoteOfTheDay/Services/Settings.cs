@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using QuoteOfTheDay.UtilityFunctions;
@@ -8,80 +8,82 @@ using TvSeriesCalendar.UtilityClasses;
 namespace QuoteOfTheDay.Services
 {
     /// <summary>
-    /// A Singleton class for the settings.
+    ///     A Singleton class for the settings.
     /// </summary>
     internal sealed class Settings : ObservableObject
     {
-        private static readonly Settings _instance = new Settings();
+        private SolidColorBrush _backgroundColor;
         private int _fontSize;
+        private SolidColorBrush _foregroundColor;
         private FontFamily _quoteFont;
         private FontStyle _quoteFontStyle;
-        private SolidColorBrush _backgroundColor;
-        private SolidColorBrush _foregroundColor;
 
-        public static Settings Instance => _instance;
+        private Settings()
+        {
+            loadSettings();
+        }
+
+        public static Settings Instance { get; } = new Settings();
 
         public string LocalQuotesFilePath { get; set; }
 
         public FontFamily QuoteFont
         {
-            get => this._quoteFont;
-            set => this.OnPropertyChanged(ref this._quoteFont, value);
+            get => _quoteFont;
+            set => OnPropertyChanged(ref _quoteFont, value);
         }
 
         public FontStyle QuoteFontStyle
         {
-            get => this._quoteFontStyle;
-            set => this.OnPropertyChanged(ref this._quoteFontStyle, value);
+            get => _quoteFontStyle;
+            set => OnPropertyChanged(ref _quoteFontStyle, value);
         }
 
         public int QuoteFontSize
         {
-            get => this._fontSize;
-            set => this.OnPropertyChanged(ref this._fontSize, value);
+            get => _fontSize;
+            set => OnPropertyChanged(ref _fontSize, value);
         }
 
         public SolidColorBrush BackgroundColor
         {
-            get => this._backgroundColor;
-            set => this.OnPropertyChanged(ref this._backgroundColor, value);
+            get => _backgroundColor;
+            set => OnPropertyChanged(ref _backgroundColor, value);
         }
 
         public SolidColorBrush ForegroundColor
         {
-            get => this._foregroundColor;
-            set => this.OnPropertyChanged(ref this._foregroundColor, value);
-        }
-
-        static Settings()
-        {
-        }
-
-        private Settings()
-        {
-            this.loadSettings();
+            get => _foregroundColor;
+            set => OnPropertyChanged(ref _foregroundColor, value);
         }
 
         private void loadSettings()
         {
-            this.LocalQuotesFilePath = Properties.Settings.Default.LocalQuotesFilePath;
-            this.QuoteFont = new FontFamily(Properties.Settings.Default.QuoteFont);
-            this.QuoteFontSize = Properties.Settings.Default.QuoteFontSize;
-            this.BackgroundColor = (SolidColorBrush) new BrushConverter().ConvertFrom(Properties.Settings.Default.BackgroundColor);
-            this.ForegroundColor = (SolidColorBrush) new BrushConverter().ConvertFrom(Properties.Settings.Default.ForegroundColor);
-            this.QuoteFontStyle = HelpFunction.GetFontstyleFromString(Properties.Settings.Default.QuoteFontStyle);
+            LocalQuotesFilePath = Properties.Settings.Default.LocalQuotesFilePath;
+            if (string.IsNullOrEmpty(LocalQuotesFilePath))
+            {
+                string publicUserPath = Environment.GetEnvironmentVariable("PUBLIC") ?? string.Empty;
+                LocalQuotesFilePath = Path.Combine(publicUserPath, "Downloads\\Quotes.txt");
+            }
+
+            QuoteFont = new FontFamily(Properties.Settings.Default.QuoteFont);
+            QuoteFontSize = Properties.Settings.Default.QuoteFontSize;
+            BackgroundColor =
+                (SolidColorBrush) new BrushConverter().ConvertFrom(Properties.Settings.Default.BackgroundColor);
+            ForegroundColor =
+                (SolidColorBrush) new BrushConverter().ConvertFrom(Properties.Settings.Default.ForegroundColor);
+            QuoteFontStyle = HelpFunction.GetFontstyleFromString(Properties.Settings.Default.QuoteFontStyle);
         }
 
         public void SaveSettings()
         {
-            Properties.Settings.Default.LocalQuotesFilePath = this.LocalQuotesFilePath;
-            Properties.Settings.Default.QuoteFont = this.QuoteFont.Source;
-            Properties.Settings.Default.QuoteFontStyle = this.QuoteFontStyle.ToString();
-            Properties.Settings.Default.QuoteFontSize = this.QuoteFontSize;
-            Properties.Settings.Default.BackgroundColor = this.BackgroundColor.Color.ToString();
-            Properties.Settings.Default.ForegroundColor = this.ForegroundColor.Color.ToString();
+            Properties.Settings.Default.LocalQuotesFilePath = LocalQuotesFilePath;
+            Properties.Settings.Default.QuoteFont = QuoteFont.Source;
+            Properties.Settings.Default.QuoteFontStyle = QuoteFontStyle.ToString();
+            Properties.Settings.Default.QuoteFontSize = QuoteFontSize;
+            Properties.Settings.Default.BackgroundColor = BackgroundColor.Color.ToString();
+            Properties.Settings.Default.ForegroundColor = ForegroundColor.Color.ToString();
             Properties.Settings.Default.Save();
         }
-
     }
 }

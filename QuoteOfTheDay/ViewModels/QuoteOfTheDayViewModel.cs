@@ -1,29 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using QuoteOfTheDay.Services;
+﻿using QuoteOfTheDay.Services;
 using TvSeriesCalendar.UtilityClasses;
 
 namespace QuoteOfTheDay.ViewModels
 {
     internal class QuoteOfTheDayViewModel : ObservableObject
     {
-        private string _quoteText;
         private string _quoteFont;
         private int _quoteFontSize;
-
-        public Settings Settings => Settings.Instance;
+        private string _quoteText;
 
         internal QuoteOfTheDayViewModel()
         {
-            this.QuoteText = GetRandomQuote.FromFile();
+            QuoteText = GetRandomQuote.FromFile();
         }
+
+        public Settings Settings => Settings.Instance;
 
         public string QuoteText
         {
-            get => this._quoteText;
-            set => this.OnPropertyChanged(ref this._quoteText, value);
+            get => _quoteText;
+            set => OnPropertyChanged(ref _quoteText, value);
         }
-
     }
 }

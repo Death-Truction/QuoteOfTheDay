@@ -8,23 +8,29 @@
         mc:Ignorable="d"
         Title="Quote Of The Day" Height="550" Width="800" MinHeight="550" MinWidth="400">
     <Window.DataContext>
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel />
     </Window.DataContext>
     <Grid Background="{Binding Settings.BackgroundColor}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="50"></ColumnDefinition>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="50" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
         </Grid.RowDefinitions>
-        <ContentControl Foreground="{Binding Settings.ForegroundColor}" Grid.Column="0"  Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2" Content="{Binding CurrentVm}" />
-        <Button Grid.Column="1" Grid.Row="0" Command="{Binding OpenOrCloseSettingsCommand}" Margin="0" VerticalAlignment="Top" Background="Transparent" Style="{DynamicResource MaterialDesignFloatingActionMiniDarkButton}">
-            <Image Source="{Binding OpenOrCloseSettingsIconSource}"></Image>
+        <ContentControl Foreground="{Binding Settings.ForegroundColor}" Grid.Column="0" Grid.ColumnSpan="2"
+                        Grid.Row="0" Grid.RowSpan="2" Content="{Binding CurrentVm}" />
+        <Button Grid.Column="1" Grid.Row="0" Command="{Binding OpenOrCloseSettingsCommand}" Margin="0"
+                VerticalAlignment="Top" Background="Transparent"
+                Style="{DynamicResource MaterialDesignFloatingActionMiniDarkButton}">
+            <Image Source="{Binding OpenOrCloseSettingsIconSource}" />
         </Button>
 
-        <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Foreground="{Binding Settings.ForegroundColor}" TextAlignment="Center" VerticalAlignment="Center" FontStyle="Italic" FontSize="12">Made By Death-Truction</TextBlock>
+        <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Foreground="{Binding Settings.ForegroundColor}"
+                   TextAlignment="Center" VerticalAlignment="Center" FontStyle="Italic" FontSize="12">
+            Made By Death-Truction
+        </TextBlock>
     </Grid>
 </Window>

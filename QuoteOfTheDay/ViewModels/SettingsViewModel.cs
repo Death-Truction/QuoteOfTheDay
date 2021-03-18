@@ -1,47 +1,50 @@
-﻿using QuoteOfTheDay.UtilityFunctions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing.Text;
 using System.Linq;
+using System.Windows.Input;
 using System.Windows.Media;
-using TvSeriesCalendar.UtilityClasses;
+using Microsoft.Win32;
 using QuoteOfTheDay.Services;
+using QuoteOfTheDay.UtilityFunctions;
+using TvSeriesCalendar.UtilityClasses;
 
 namespace QuoteOfTheDay.ViewModels
 {
-
     internal class SettingsViewModel : ObservableObject
     {
-        private Settings _settings = Settings.Instance;
         private List<string> _availableFontStyles;
         private Color _backgroundColorPicker;
         private Color _foregroundColorPicker;
-        private string _quoteSource;
-
+        private string _quoteFilepath;
+        private readonly Settings _settings = Settings.Instance;
 
         public SettingsViewModel()
         {
-            this.Fonts = this.getInstalledFontsAsStringList();
-            this.SetAvailableFontStyles();
-            this.BackgroundColorPicker = this._settings.BackgroundColor.Color;
-            this.ForegroundColorPicker = this._settings.ForegroundColor.Color;
-            this.QuoteSource = this._settings.QuoteSource;
+            Fonts = getInstalledFontsAsStringList();
+            SetAvailableFontStyles();
+            BackgroundColorPicker = _settings.BackgroundColor.Color;
+            ForegroundColorPicker = _settings.ForegroundColor.Color;
+            QuoteFilepath = _settings.LocalQuotesFilePath;
+            SelectQuoteFileCommand = new RelayCommand(SelectQuoteFile);
         }
+
+        public ICommand SelectQuoteFileCommand { get; }
 
         public string QuoteFont
         {
             get => _settings.QuoteFont.Source;
             set
             {
-                this._settings.QuoteFont = new System.Windows.Media.FontFamily(value);
-                this.SetAvailableFontStyles();
-                this.QuoteFontStyle = this.AvailableFontStyles[0];
+                _settings.QuoteFont = new FontFamily(value);
+                SetAvailableFontStyles();
+                QuoteFontStyle = AvailableFontStyles[0];
             }
         }
 
         public List<string> AvailableFontStyles
         {
-            get => this._availableFontStyles;
-            set => this.OnPropertyChanged(ref this._availableFontStyles, value);
+            get => _availableFontStyles;
+            set => OnPropertyChanged(ref _availableFontStyles, value);
         }
 
         public string QuoteFontStyle
@@ -58,47 +61,53 @@ namespace QuoteOfTheDay.ViewModels
 
         public Color BackgroundColorPicker
         {
-            get => this._backgroundColorPicker;
+            get => _backgroundColorPicker;
             set
             {
-                this.OnPropertyChanged(ref this._backgroundColorPicker, value);
-                this._settings.BackgroundColor = new SolidColorBrush(value);
+                OnPropertyChanged(ref _backgroundColorPicker, value);
+                _settings.BackgroundColor = new SolidColorBrush(value);
             }
         }
 
         public Color ForegroundColorPicker
         {
-            get => this._foregroundColorPicker;
+            get => _foregroundColorPicker;
             set
             {
-                this.OnPropertyChanged(ref this._foregroundColorPicker, value);
-                this._settings.ForegroundColor = new SolidColorBrush(value);
+                OnPropertyChanged(ref _foregroundColorPicker, value);
+                _settings.ForegroundColor = new SolidColorBrush(value);
             }
         }
 
-        public string QuoteSource
+        public string QuoteFilepath
         {
-            get => this._quoteSource;
+            get => _quoteFilepath;
             set
-            { 
-                this.OnPropertyChanged(ref this._quoteSource, value);
-                this._settings.QuoteSource = value;
+            {
+                OnPropertyChanged(ref _quoteFilepath, value);
+                _settings.LocalQuotesFilePath = value;
             }
         }
 
-        //public List<string> QuoteSources => new List<string> {"Web", "File"};
 
         public List<string> Fonts { get; }
 
         private List<string> getInstalledFontsAsStringList()
         {
-            FontCollection FC = new InstalledFontCollection();
-            return FC.Families.Select(family => family.Name).ToList();
+            FontCollection fc = new InstalledFontCollection();
+            return fc.Families.Select(family => family.Name).ToList();
         }
 
         private void SetAvailableFontStyles()
         {
-            this.AvailableFontStyles = this._settings.QuoteFont.FamilyTypefaces.Select(typeface => typeface.Style.ToString()).Distinct().ToList();
+            AvailableFontStyles = _settings.QuoteFont.FamilyTypefaces.Select(typeface => typeface.Style.ToString())
+                .Distinct().ToList();
+        }
+
+        private void SelectQuoteFile()
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            if (fileDialog.ShowDialog() == true) QuoteFilepath = fileDialog.FileName;
         }
     }
 }
